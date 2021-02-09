@@ -1,0 +1,66 @@
+
+<div class="col-md-12 mt-3">
+    <h1>{{page_title}}</h1>
+
+    <p *ngIf="!is_edit">
+        Añade un nuevo articulo al blog<p>
+
+    <p *ngIf="is_edit && post">
+        Espacio para modificar la entrada <b> {{post.title}} </b></p>
+
+    <hr>
+
+    <!--Alertas-->
+
+    <div class="alert alert-success" *ngIf="status == 'success'">
+        La Entrada se a creado correctamente.
+    </div>
+
+    <div class="alert alert-danger" *ngIf="status == 'error'">
+        La Entrada NO se ha creado 
+    </div>
+
+    <!--Formulario de crear entrada-->
+    <form class="col-md-5 ml-0 pl-0" #postNew="ngForm" (ngSubmit)="onSubmit(postNew)" >
+
+        <div class="form-group">
+            <label for="title">Titulo</label>
+            <input type="text" name="title" placeholder="Aqui va su titulo" #title="ngModel" [(ngModel)]=" post.title" 
+            class=" form-control" required /> 
+
+            <small *ngIf = "!title.valid && title.touched" class="invalid-feedback d-block">El titulo no es valido</small>
+
+        </div>
+
+        <div class="form-group">
+            <label for="content" >Contenido</label>
+            <textarea [froalaEditor] name="content" #content="ngModel" [(ngModel)]="post.content" required></textarea>
+
+            <small *ngIf = "!content.valid && content.touched" class="invalid-feedback d-block">El contenido no es valido</small>
+        </div>
+
+        <div class="form-group">
+            <label for="category_id">Categoria</label>
+            <select name="category_id" #category="ngModel" [(ngModel)] ="post.category_id" class="form-control">
+                <option *ngFor = "let category of categories" value="{{category.id}}">{{category.name}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Image</label>
+
+            <div *ngIf = "is_edit && post.image">
+                <img src="{{ url + 'post/Image/' + post.image}}" class="avatar_size"/>
+            </div>
+            
+            <angular-file-uploader
+                [config] = "afuConfig"
+                (ApiResponse)="imageUpload($event)">
+            </angular-file-uploader>
+
+        </div>
+
+            <input type="submit" value="Guardar" class="btn btn-success" [disabled]="postNew.invalid"/>
+    </form>
+
+</div>

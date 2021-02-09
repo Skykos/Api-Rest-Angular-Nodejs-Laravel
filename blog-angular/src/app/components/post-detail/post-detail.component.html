@@ -1,0 +1,13 @@
+<div class="col-md-12" *ngIf="!post"> Cargando...</div>
+<div class="col-md-12 mt-3" *ngIf="post">
+    <h1>{{post.title}}</h1>
+
+        <div class="post-imagen w-100" *ngIf="post.image">
+            <img src="{{ url + 'post/Image/' + post.image}}" class="w-25">
+        </div>
+        <p> {{post.category.name}} -- <a [routerLink]="['/perfil', post.user.id]">{{post.user.name}} {{post.user.surname}}</a>
+        </p>
+    
+    <hr/>
+    <p [innerHtml]="post.content"></p>
+</div>

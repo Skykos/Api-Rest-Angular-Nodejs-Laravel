@@ -1,0 +1,37 @@
+
+<div class="col-lg-12 mt-3" *ngIf="!user || !topics" >
+    <img src="../assets/img/loading.gif">
+</div>
+
+<div class="col-lg-12 mt-3" *ngIf="user && topics" >
+    <div class="avatar_mask mb-2 float-left mr-3" *ngIf="user.image">
+        <img src="{{url + 'avatar/' + user.image}}" class="avatar_nav">
+    </div>
+
+    <div class="avatar_mask mb-2 float-left" *ngIf="!user.image">
+        <img src="../assets/img/cat-profile-1-559964.png" class="avatar_nav">
+    </div>
+    
+    <h2>{{user.name + ' ' + user.surname}}</h2>
+    <div class="clearfix"></div>
+   
+    <hr>
+
+    <ul class="list-group list-topics">
+        <li class="list-group-item" *ngFor="let topic of topics">
+            <b><a [routerLink]="['//tema', topic._id]"> {{topic.title}} </a></b>
+            
+            <div class="clearfix"></div>
+            <span class="badge badge-light pl-0">
+                {{topic.date | amLocale: 'es' | amTimeAgo }}
+            </span>
+
+            <a [routerLink] ="['//tema', topic._id]" class="btn btn-sm btn-success float-right mx-auto d-block">Leer</a>
+        </li>
+      </ul>
+
+      <div class="clearfix"></div>
+
+      
+
+</div>

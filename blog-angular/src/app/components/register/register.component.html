@@ -1,0 +1,47 @@
+<div class="col-md-12 mt-3">
+    <h1>{{page_title}}</h1>
+    <p>Registrate en nuestra plataforma para crear temas de interes y muchos mas </p>
+    <div class="alert alert-success" *ngIf="status == 'success'">
+        El registro se ha completado correctamente , <a [routerLink]="['/login']"> Logueate Aqui </a>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="status == 'error'">
+        El registro NO se ha completado 
+    </div>
+
+
+    <!--Fomulario de registro-->
+    <form class="col-md-5 ml-0 pl-0" #registerform="ngForm" (ngSubmit)="onSubmit(registerform)">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" placeholder="Escriba su nombre" name="name" class="form-control" 
+            #name="ngModel" [(ngModel)]=user.name required pattern="[a-zA-Z]+">
+             <small *ngIf="!name.valid && name.touched" class="invalid-feedback d-block">
+                 El nombre no es valido  </small>
+        </div>
+        <div class="form-group">
+            <label for="surname">Apellido</label>
+            <input type="text" placeholder="Escriba su apellido" name="surname" class="form-control" 
+            #surname="ngModel" [(ngModel)]=user.surname required pattern="[a-zA-Z]+">
+            <small *ngIf="!surname.valid && surname.touched" class="invalid-feedback d-block">
+                El Apellido no es valido  </small>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email"  placeholder="Aqui su email" name="email" class="form-control"
+            #email="ngModel" [(ngModel)]=user.email required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+            <small *ngIf="!email.valid && email.touched" class="invalid-feedback d-block">
+                El Correo no es valido  </small>
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" class="form-control"
+            #password="ngModel" [(ngModel)]=user.password required>
+            <small *ngIf="!password.valid && password.touched" class="invalid-feedback d-block">
+                El password no es valido  </small>
+        </div>
+       
+         <input type="submit" value="Registrarme" class="btn btn-success" [disabled]="registerform.invalid"/>
+    
+    </form>
+</div>

@@ -1,0 +1,74 @@
+<div class="col-lg-12 topic-box mt-3">
+    <div class="topic-data col-lg-10 float-left">
+        <h2> {{topic.title}} </h2> 
+        <span class="badge badge-primary">
+            {{topic.user.name + ' ' + topic.user.surname}}
+        </span>
+
+        <span class="badge badge-light ml-2">
+            {{topic.date | amLocale: 'es' | amTimeAgo }}
+        </span>
+
+        <span class="badge badge-warning ml-2" *ngIf="topic.lang">
+            {{topic.lang }}
+        </span>
+
+        <div class="mt-3">
+            <p id="topic-content" >
+                {{topic.content}}
+            </p>
+        </div>
+
+        <div class="mt-3">
+            <p id="topic-code" *ngIf="topic.code && topic.lang" >
+                <ngx-highlight-js lang="{{topic.lang}}" code="{{topic.code}}"> </ngx-highlight-js>
+            </p>
+        </div>
+    </div>
+    <div class="clearfix "></div>
+    <div id="comment-box " class="mt3 col-lg-9 mb-5">
+        <h3>Comentarios</h3>
+        <hr>
+
+        <div class="alert alert-success col-md-8 mt-3" *ngIf="status == 'success'">
+            Tu comentario se ha cargado correctamente
+        </div>
+        <div class="alert alert-danger col-md-8 mt-3" *ngIf="status == 'error'">
+            El comentario no se ha añadido
+        </div>
+    
+        <form #formComment="ngForm" (ngSubmit)="onSubmit(formComment)" *ngIf="identity">
+            <div class="form-group">
+                <label for="content"><i>Escribe tu comentario aqui</i></label>
+                <textarea  name="content" #content="ngModel" [(ngModel)]="comment.content" required  class="form-control"></textarea>
+    
+                <small *ngIf="!content.valid && content.touched" class="invalid-feedback d-block"> Contenido no valido </small>
+                    
+            </div>
+            <input class="btn btn-success mb-10" type="submit" value="comentar" [disabled] ="formComment.invalid" >
+        </form>
+        <hr>
+        <ul class="list-group list-comment mb-5">
+            <li class="list-group-item comment-item" *ngFor="let comment of topic.comment">
+                <div class="avatar_mask float-left mr-2" *ngIf="identity">
+                    <img src="{{url +'avatar/'+comment.user.image}}" class="avatar_nav">
+                </div>
+                <span class="d-block">
+               {{comment.content}}
+            </span>
+               <div class="clearfix">
+                    <span class="badge badge-primary">
+                    {{comment.user.name + ' ' + comment.user.surname}}
+                    </span>
+            
+                    <span class="badge badge-light ml-2">
+                        {{comment.date | amLocale: 'es' | amTimeAgo }}
+                    </span>
+                    <button (click)="deleteComment(comment._id)" class="btn btn-sm btn-danger float-right" *ngIf="identity && identity._id == comment.user._id">Borrar</button>
+                </div>
+            </li>
+            
+          </ul>
+    </div>
+</div>
+
